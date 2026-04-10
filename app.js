@@ -3,7 +3,7 @@
 //  de Supabase (ver README.md para instrucciones)
 // ═══════════════════════════════════════════════
 const SUPABASE_URL = 'https://fxqrftjwouzlqeyxkawd.supabase.co';
-const SUPABASE_KEY = 'sb_secret_zerdWULAddkK9ricaf0IxQ_vmc6JUNY';
+const SUPABASE_KEY = 'sb_publishable_ificAA7lRt8jvUXioywAQg_wTU5YSlG';
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
