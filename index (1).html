@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carné Virtual ESAN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="authScreen" class="screen active">
+  <div class="auth-bg">
+    <div class="auth-card">
+      <div class="logo-block">
+        <div class="logo-badge">E</div>
+        <div>
+          <div class="logo-title">ESAN</div>
+          <div class="logo-sub">Carné Virtual</div>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('login')">Iniciar sesión</button>
+        <button class="tab" onclick="switchTab('register')">Registrarse</button>
+      </div>
+      <div id="loginForm">
+        <div class="field"><label>Correo electrónico</label><input type="email" id="loginEmail" placeholder="tu@correo.com" /></div>
+        <div class="field"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="••••••••" /></div>
+        <div class="error-msg" id="loginError"></div>
+        <button class="btn-primary" onclick="handleLogin()">Entrar</button>
+      </div>
+      <div id="registerForm" style="display:none">
+        <div class="field"><label>Correo electrónico</label><input type="email" id="regEmail" placeholder="tu@correo.com" /></div>
+        <div class="field"><label>Contraseña</label><input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" /></div>
+        <div class="error-msg" id="registerError"></div>
+        <button class="btn-primary" onclick="handleRegister()">Crear cuenta</button>
+      </div>
+      <div class="auth-footer">Universidad ESAN &mdash; Sistema de Identificación</div>
+    </div>
+  </div>
+</div>
+
+<div id="dashScreen" class="screen">
+  <div class="app-shell">
+    <div class="status-bar">
+      <span id="statusTime">7:48</span>
+      <span>5G ▐</span>
+    </div>
+    <div class="app-topbar">
+      <span class="app-back">&#8592;</span>
+      <span class="app-topbar-title">Carné Virtual - Pregrado</span>
+      <span class="app-menu" onclick="toggleMenu()">&#8942;</span>
+    </div>
+    <div class="dropdown-menu" id="dropMenu">
+      <div class="drop-item" onclick="openEdit()">Editar datos</div>
+      <div class="drop-item logout-item" onclick="handleLogout()">Cerrar sesión</div>
+    </div>
+    <div class="app-body">
+      <div class="photo-wrap">
+        <div class="photo-box" onclick="document.getElementById('photoFile').click()">
+          <img id="cardPhoto" src="https://api.dicebear.com/7.x/personas/svg?seed=esan" />
+          <div class="photo-overlay">Cambiar foto</div>
+        </div>
+      </div>
+      <div class="clock-box" id="cardClock">07:48:41 p. m.</div>
+      <div class="watermark-wrap">
+        <div class="wm-text">esan</div>
+        <div class="data-row"><span class="dl">Nombres</span><div class="dv" id="cNombres">NOMBRES</div></div>
+        <div class="data-row"><span class="dl">Apellidos</span><div class="dv" id="cApellidos">APELLIDOS</div></div>
+        <div class="data-row"><span class="dl">Carrera</span><div class="dv" id="cCarrera">CARRERA</div></div>
+      </div>
+    </div>
+    <div class="barcode-wrap">
+      <svg id="barcodeEl" viewBox="0 0 200 44" preserveAspectRatio="none" style="width:100%;height:44px"></svg>
+      <div class="barcode-num" id="cCodigo">00000000</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="editModal" onclick="handleOverlayClick(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-title">Editar mis datos</span>
+        <span class="modal-close" onclick="closeEdit()">&#10005;</span>
+      </div>
+      <div class="field"><label>Nombres</label><input type="text" id="fNombres" placeholder="Ej: AARON URIEL" oninput="syncCard()" /></div>
+      <div class="field"><label>Apellidos</label><input type="text" id="fApellidos" placeholder="Ej: OCAMPO MORENO" oninput="syncCard()" /></div>
+      <div class="field"><label>Carrera</label><input type="text" id="fCarrera" placeholder="Ej: ECONOMÍA" oninput="syncCard()" /></div>
+      <div class="field"><label>Código de estudiante</label><input type="text" id="fCodigo" placeholder="Ej: 26101437" oninput="syncCard()" /></div>
+      <div class="field">
+        <label>Foto de perfil</label>
+        <div class="photo-upload-area" onclick="document.getElementById('photoFile').click()">
+          <img id="photoThumb" src="" style="display:none" />
+          <span id="photoHint">Toca para subir foto</span>
+        </div>
+      </div>
+      <div class="save-row">
+        <button class="btn-primary" onclick="saveProfile()">Guardar</button>
+        <span class="save-status" id="saveStatus"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="photoFile" accept="image/*" style="display:none" onchange="handlePhoto(event)" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
